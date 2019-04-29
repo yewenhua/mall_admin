@@ -281,9 +281,9 @@
                             if (children[i].name) {
                                 let num = 0;
                                 if(this.edit && this.activeData){
-                                    for(let i=0; i<this.activeData.skus.length; i++){
-                                        if(this.activeData.skus[i].first_properties_id == children[i].attr_id){
-                                            num = this.activeData.skus[i].num;
+                                    for(let j=0; j<this.activeData.skus.length; j++){
+                                        if(this.activeData.skus[j].first_properties_id == children[i].attr_id){
+                                            num = this.activeData.skus[j].num;
                                         }
                                     }
                                 }
@@ -404,6 +404,7 @@
             add(){
                 this.edit = true;
                 this.activeId = '';
+                this.activeData = null;
                 this.ruleForm.name = '';
                 this.ruleForm.send_method = '';
                 this.ruleForm.sale_price = '';
@@ -799,82 +800,84 @@
             handleMainRemove(file, fileList) {
                 let that = this;
                 that.loading = true;
-                that.axios.post('/admin/goods/deleteImg', {
+                that.axios.post('/goods/deleteimg', {
                     goodsId: that.activeId,
                     imageName: file.name,
-                    imageType: 'GOODS_IMAGE'
+                    imageType: 'GOODS_IMAGE',
+                    privilege: encodeURIComponent(aesencode('delete'))
                 })
-                    .then(function (response) {
-                        that.loading = false;
-                        if(response.data.code == 0) {
-                            Message.success({
-                                message: '操作成功'
-                            });
-
-                            let idx = -1;
-                            let mainpic = that.ruleForm.mainpic;
-                            for(let i=0; i<that.ruleForm.mainpic.length; i++){
-                                if(that.ruleForm.mainpic[i].name == file.name){
-                                    idx = i;
-                                }
-                            }
-                            if (idx !== -1) {
-                                mainpic.splice(idx, 1);
-                                that.ruleForm.mainpic = mainpic;
-                            }
-                        }
-                        else{
-                            Message.warning({
-                                message: response.data.message
-                            });
-                        }
-                    })
-                    .catch(function (error) {
-                        that.loading = false;
-                        Message.warning({
-                            message: '未知错误'
+                .then(function (response) {
+                    that.loading = false;
+                    if(response.data.code == 0) {
+                        Message.success({
+                            message: '操作成功'
                         });
+
+                        let idx = -1;
+                        let mainpic = that.ruleForm.mainpic;
+                        for(let i=0; i<that.ruleForm.mainpic.length; i++){
+                            if(that.ruleForm.mainpic[i].name == file.name){
+                                idx = i;
+                            }
+                        }
+                        if (idx !== -1) {
+                            mainpic.splice(idx, 1);
+                            that.ruleForm.mainpic = mainpic;
+                        }
+                    }
+                    else{
+                        Message.warning({
+                            message: response.data.message
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    that.loading = false;
+                    Message.warning({
+                        message: '未知错误'
                     });
+                });
             },
             handleDetailRemove(file, fileList) {
                 let that = this;
                 that.loading = true;
-                that.axios.post('/admin/goods/deleteImg', {
+                that.axios.post('/goods/deleteimg', {
                     goodsId: that.activeId,
                     imageName: file.name,
-                    imageType: 'GOODS_DETAIL'
+                    imageType: 'GOODS_DETAIL',
+                    privilege: encodeURIComponent(aesencode('delete'))
                 })
-                    .then(function (response) {
-                        that.loading = false;
-                        if(response.data.code == 0) {
-                            Message.success({
-                                message: '操作成功'
-                            });
-
-                            let idx = -1;
-                            let detailpic = that.ruleForm.detailpic;
-                            for(let i=0; i<that.ruleForm.detailpic.length; i++){
-                                if(that.ruleForm.detailpic[i].name == file.name){
-                                    idx = i;
-                                }
-                            }
-                            if (idx !== -1) {
-                                detailpic.splice(idx, 1);
-                                that.ruleForm.detailpic = detailpic;
-                            }
-                        }
-                        else{
-                            Message.warning({
-                                message: response.data.message
-                            });
-                        }
-                    })
-                    .catch(function (error) {
-                        that.loading = false;
-                        Message.warning({
-                            message: '未知错误'
+                .then(function (response) {
+                    that.loading = false;
+                    if(response.data.code == 0) {
+                        Message.success({
+                            message: '操作成功'
                         });
+
+                        let idx = -1;
+                        let detailpic = that.ruleForm.detailpic;
+                        for(let i=0; i<that.ruleForm.detailpic.length; i++){
+                            if(that.ruleForm.detailpic[i].name == file.name){
+                                idx = i;
+                            }
+                        }
+                        if (idx !== -1) {
+                            detailpic.splice(idx, 1);
+                            that.ruleForm.detailpic = detailpic;
+                        }
+                    }
+                    else{
+                        Message.warning({
+                            message: response.data.message
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    that.loading = false;
+                    Message.warning({
+                        message: '未知错误'
                     });
+                });
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
