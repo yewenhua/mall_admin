@@ -595,6 +595,9 @@
     .updateWrapper .el-form--label-top .el-form-item__label{
         padding: 0px;
     }
+    .el-pagination {
+        padding: 30px 20px;
+    }
 
     .add-area{
         position: absolute;
