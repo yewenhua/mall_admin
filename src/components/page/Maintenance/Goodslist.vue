@@ -136,9 +136,17 @@
                         </el-form-item>
                         <el-form-item label="商品规格" prop="properties">
                             <div class="add-child" v-if="ruleForm.properties.length <= 1">
-                                <el-button size="mini" icon="el-icon-plus" @click="addOption">商品属性</el-button>
+                                <el-switch
+                                        v-model="ruleForm.is_sku"
+                                        active-color="#409eff"
+                                        active-text="启用"
+                                        inactive-text=""
+                                        style="margin-right: 20px;"
+                                        inactive-color="#dcdfe6">
+                                </el-switch>
+                                <el-button size="mini" icon="el-icon-plus" @click="addOption" v-if="ruleForm.is_sku">商品属性</el-button>
                             </div>
-                            <div class="child-item" v-for="(child, pidx) in ruleForm.properties" :key="pidx">
+                            <div class="child-item" v-for="(child, pidx) in ruleForm.properties" :key="pidx" v-if="ruleForm.is_sku">
                                 <div class="sku-color sku-item">
                                     <input v-model="child.title" placeholder="请输入商品属性"></input>
                                     <span class="sku-add" @click="addProperty(pidx)">+</span>
@@ -172,6 +180,9 @@
                                     </template>
                                 </el-table-column>
                             </el-table>
+                        </el-form-item>
+                        <el-form-item label="商品库存" prop="sale_price">
+                            <el-input v-model="ruleForm.remain_num" placeholder="请输入商品库存"></el-input>
                         </el-form-item>
                         <el-form-item label="商品详情" prop="detailpic">
                             <el-upload
@@ -346,8 +357,10 @@
                     name: '',
                     sale_price: '',
                     send_method: '',
+                    remain_num: '',
                     mainpic: [],
                     detailpic: [],
+                    is_sku: false,
                     properties:[{
                         title: '',
                         list: [{
@@ -406,6 +419,7 @@
                 this.activeId = '';
                 this.activeData = null;
                 this.ruleForm.name = '';
+                this.ruleForm.remain_num = '';
                 this.ruleForm.send_method = '';
                 this.ruleForm.sale_price = '';
                 this.ruleForm.properties = [{
@@ -418,6 +432,7 @@
                 }];
                 this.ruleForm.mainpic = [];
                 this.ruleForm.detailpic = [];
+                this.ruleForm.is_sku = false;
                 this.ruleForm.is_release = true;
             },
             submitForm(formName) {
@@ -492,6 +507,7 @@
                             properties: JSON.stringify(that.ruleForm.properties),
                             sale_price: that.ruleForm.sale_price,
                             send_method: that.ruleForm.send_method,
+                            remain_num: that.ruleForm.remain_num,
                             images: images,
                             detailImages: detailImages,
                             isSku: flag,
@@ -787,11 +803,13 @@
                 }
 
                 that.ruleForm.name = row.name;
+                that.ruleForm.remain_num = row.remain_num;
                 that.ruleForm.send_method = row.send_method;
                 that.ruleForm.sale_price = row.sale_price;
                 that.ruleForm.properties = properties_arr;
                 that.ruleForm.mainpic = row.mainpic;
                 that.ruleForm.detailpic = row.detailpic;
+                that.ruleForm.is_sku = row.is_sku == 1 ? true : false;
                 that.ruleForm.is_release = row.is_release;
             },
             handleSelectionChange(val){
