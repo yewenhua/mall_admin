@@ -159,7 +159,7 @@
                             </div>
 
                             <el-table
-                                    v-if="skuList.length > 0"
+                                    v-if="skuList.length > 0 && ruleForm.is_sku"
                                     :data="skuList"
                                     border
                                     class="sku-tb">
@@ -181,7 +181,7 @@
                                 </el-table-column>
                             </el-table>
                         </el-form-item>
-                        <el-form-item label="商品库存" prop="sale_price">
+                        <el-form-item label="商品库存" prop="sale_price" v-if="!ruleForm.is_sku">
                             <el-input v-model="ruleForm.remain_num" placeholder="请输入商品库存"></el-input>
                         </el-form-item>
                         <el-form-item label="商品详情" prop="detailpic">
@@ -510,7 +510,7 @@
                             remain_num: that.ruleForm.remain_num,
                             images: images,
                             detailImages: detailImages,
-                            isSku: flag,
+                            isSku: flag && that.ruleForm.is_sku,
                             is_release: that.ruleForm.is_release,
                             privilege: encodeURIComponent(aesencode('update'))
                         })
@@ -806,7 +806,7 @@
                 that.ruleForm.remain_num = row.remain_num;
                 that.ruleForm.send_method = row.send_method;
                 that.ruleForm.sale_price = row.sale_price;
-                that.ruleForm.properties = properties_arr;
+                that.ruleForm.properties = properties_arr ? properties_arr : [];
                 that.ruleForm.mainpic = row.mainpic;
                 that.ruleForm.detailpic = row.detailpic;
                 that.ruleForm.is_sku = row.is_sku == 1 ? true : false;
