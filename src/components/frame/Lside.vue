@@ -12,7 +12,7 @@
                 @select="handleSelect"
                 @open="handleOpen"
                 @close="handleClose">
-            <el-submenu index="1" v-if="hasPagePermission('admin/maintenance') || hasPagePermission('admin/myagents') || hasPagePermission('admin/goodslist') || hasPagePermission('admin/logistics') || hasPagePermission('admin/category')">
+            <el-submenu index="1" v-if="hasPagePermission('admin/maintenance') || hasPagePermission('admin/myagents') || hasPagePermission('admin/goodslist') || hasPagePermission('admin/logistics') || hasPagePermission('admin/category') || hasPagePermission('admin/orderlist')">
                 <template slot="title">
                     <i class="el-icon-goods maintenance"></i>
                     <span class="mtext">运维管理</span>
@@ -22,6 +22,7 @@
                 <el-menu-item index="/admin/category" class="mtext" v-if="hasPagePermission('admin/category')">商品类目</el-menu-item>
                 <el-menu-item index="/admin/goodslist" class="mtext" v-if="hasPagePermission('admin/goodslist')">商品管理</el-menu-item>
                 <el-menu-item index="/admin/logistics" class="mtext" v-if="hasPagePermission('admin/logistics')">邮费设置</el-menu-item>
+                <el-menu-item index="/admin/orderlist" class="mtext" v-if="hasPagePermission('admin/orderlist')">订单列表</el-menu-item>
             </el-submenu>
             <el-submenu index="4" v-if="hasPagePermission('admin/takecash') || hasPagePermission('admin/cashlog') || hasPagePermission('admin/discount')">
                 <template slot="title">

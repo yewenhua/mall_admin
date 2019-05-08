@@ -41,6 +41,7 @@ const Logistics = () => import('./page/Maintenance/Logistics.vue');
 const Welcome = () => import('./page/Welcome.vue');
 const CheckCash = () => import('./page/Finance/CheckCash.vue');
 const CashLog = resolve => require(['./page/Finance/CashLog.vue'], resolve);
+const Orderlist = () => import('./page/Maintenance/Orderlist.vue');
 
 Vue.use(VueRouter)
 
@@ -156,6 +157,14 @@ const routes = [
             {
                 path: 'goodslist',
                 component: Goodslist,
+                meta: {
+                    requireAuth: true,
+                    agent: 'pc'
+                }
+            },
+            {
+                path: 'orderlist',
+                component: Orderlist,
                 meta: {
                     requireAuth: true,
                     agent: 'pc'
