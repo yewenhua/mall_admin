@@ -44,7 +44,7 @@
                             :index="indexMethod">
                     </el-table-column>
                     <el-table-column
-                            prop="orderNo"
+                            prop="orderid"
                             label="订单号">
                     </el-table-column>
                     <el-table-column
