@@ -391,10 +391,7 @@
 
     export default {
         computed: {
-            ...mapState(["domainUrl", 'baseURL', 'userInfo']),
-            ...mapGetters([
-                'newOrderId',
-            ])
+            ...mapState(["domainUrl", 'baseURL', 'userInfo'])
         },
         data(){
             return {
@@ -426,8 +423,9 @@
                 let that = this;
                 that.loading = true;
                 let params = {
-                    pageSize: that.perPage,
-                    pageNumber: that.currentPage
+                    num: that.perPage,
+                    page: that.currentPage,
+                    privilege: encodeURIComponent(aesencode('read'))
                 };
 
                 if(that.check != 'ALL'){
@@ -438,22 +436,24 @@
                     params.orderStatus = that.status;
                 }
 
-                if(that.searchkey){
-                    params.text = that.searchkey;
-                }
 
                 that.axios.get('/order/page', {
-                    params: params
+                    params: {
+                        num: that.perPage,
+                        page: that.currentPage,
+                        search: that.searchkey,
+                        privilege: encodeURIComponent(aesencode('read'))
+                    }
                 })
                 .then(function (response) {
                     if (response.data.code == 0) {
-                        if(response.data.data.content.length > 0){
-                            for(let i=0; i<response.data.data.content.length; i++){
-                                response.data.data.content[i].img = that.getImg('main', response.data.data.content[i].goodsImage);
+                        if(response.data.data.data.length > 0){
+                            for(let i=0; i<response.data.data.data.length; i++){
+                                //response.data.data.data[i].img = that.getImg('main', response.data.data.content[i].goodsImage);
                             }
                         }
-                        that.tableData = response.data.data.content;
-                        that.total = response.data.data.totalCount;
+                        that.tableData = response.data.data.data;
+                        that.total = response.data.data.total;
                     }
                     that.loading = false;
                 })
@@ -628,12 +628,7 @@
             Star
         },
         watch: {
-            newOrderId(id) {
-                let that = this;
-                setTimeout(()=>{
-                    that.handleDetail(0, {id: id});
-                }, 500);
-            }
+
         },
         mounted() {
             this.lists();

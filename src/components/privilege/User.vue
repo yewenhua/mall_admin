@@ -271,7 +271,9 @@
         Loading,
         MessageBox,
         Switch,
-        Radio
+        Radio,
+        Select,
+        Option
     } from 'element-ui'
     import PageTitle from '../frame/PageTitle.vue'
     import { checkToken }  from '../ajax';
@@ -290,6 +292,8 @@
     Vue.use(Loading);
     Vue.use(Switch);
     Vue.use(Radio);
+    Vue.use(Select);
+    Vue.use(Option);
     Vue.prototype.$confirm = MessageBox.confirm;
     Vue.prototype.$prompt = MessageBox.prompt;
     Vue.prototype.$message = Message;
