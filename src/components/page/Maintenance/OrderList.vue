@@ -34,11 +34,7 @@
                         header-cell-class-name="txt-center"
                         @selection-change="handleSelectionChange"
                         style="width: 100%">
-                    <el-table-column
-                            v-if="1==2"
-                            type="selection"
-                            width="80">
-                    </el-table-column>
+
                     <el-table-column
                             type="index"
                             :index="indexMethod">
@@ -112,14 +108,7 @@
                             <div>{{scope.row.createDate ? scope.row.createDate.substring(0, 10) : ''}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column
-                            prop="created_at"
-                            width="100"
-                            label="安装时间">
-                        <template slot-scope="scope">
-                            <div>{{scope.row.fixDate ? scope.row.fixDate.substring(0, 10) : ''}}</div>
-                        </template>
-                    </el-table-column>
+
                     <el-table-column label="操作" width="150">
                         <template slot-scope="scope">
                             <el-button
@@ -142,8 +131,7 @@
                         layout="total, prev, pager, next"
                         :total="total">
                 </el-pagination>
-                <div class="batch_delete" v-if="1==2">
-                    <el-button type="warning" :disabled="multipleSelection.length <= 0" @click="batchDelete">批量审核</el-button>
+                <div class="batch_delete">
                 </div>
                 <el-dialog title="订单详情" :visible.sync="dialogVisible" :modal-append-to-body="false" class="child-dialog" @close="close">
                     <div class="customer">
@@ -499,15 +487,16 @@
             handleDetail(index, row) {
                 let that = this;
                 that.loading = true;
-                that.axios.get('/order/detail/' + row.id, {
+                that.axios.get('/order/detail', {
                     params: { //请求参数
-                        id: row.id,
+                        idstr: row.idstr,
+                        privilege: encodeURIComponent(aesencode('read'))
                     }
                 })
                 .then(function (response) {
                     if (response.data.code == 0) {
                         that.dialogVisible = true;
-                        let commentImages = response.data.data.commentImages;
+                        let commentImages = [];
                         let arr = [];
                         if (commentImages && commentImages.indexOf(',') !== -1){
                             let tmp = commentImages.split(',');
@@ -522,7 +511,7 @@
                         }
                         response.data.data.imgs = arr;
 
-                        let rejectImages = response.data.data.rejectImage;
+                        let rejectImages = [];
                         let rejectArr = [];
                         if (rejectImages && rejectImages.indexOf(',') !== -1){
                             let tmp = rejectImages.split(',');
