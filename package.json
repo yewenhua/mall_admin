@@ -5,7 +5,7 @@
   "author": "cat <2574522520@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot --inline --port 8083",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot --inline --host 192.168.6.11 --port 8083",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {

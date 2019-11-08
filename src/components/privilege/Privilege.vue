@@ -134,7 +134,8 @@
                 multipleSelection: [],
                 ruleForm: {
                     name: '',
-                    desc: ''
+                    desc: '',
+                    detail: ''
                 },
                 rules: {
                     name: [
